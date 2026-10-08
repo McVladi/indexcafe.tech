@@ -1,92 +1,3752 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>IndexCafe — Plataforma IA para cafeterías</title>
-<meta name="description" content="IndexCafe es una plataforma de IA para cafeterías independientes. Gestión de menú, inventario y atención al cliente.">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Inter,system-ui,Segoe UI,Helvetica,Arial,sans-serif;color:#1a1a1a;line-height:1.6;background:#FFFBF5}
-a{color:inherit;text-decoration:none}
-header{max-width:1100px;margin:0 auto;padding:18px 24px;display:flex;justify-content:space-between;align-items:center}
-.logo{font-weight:800;font-size:1.35rem;letter-spacing:-.02em}
-.logo span{color:#C07A3A}
-nav a{margin-left:22px;font-size:.92rem;color:#555}
-.hero{max-width:1100px;margin:0 auto;padding:56px 24px 40px;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
-.hero h1{font-size:2.6rem;line-height:1.08;letter-spacing:-.03em}
-.hero h1 em{font-style:normal;color:#C07A3A}
-.hero p{margin-top:16px;color:#4a4a4a;font-size:1.05rem}
-.cta{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}
-.btn{padding:12px 20px;border-radius:999px;font-weight:600;font-size:.95rem}
-.btn-primary{background:#111;color:#fff}
-.btn-ghost{border:1.5px solid #111}
-.hero-card{background:#fff;border:1px solid #E8DDD0;border-radius:20px;padding:22px;box-shadow:0 8px 30px rgba(0,0,0,.06)}
-.hero-card h3{font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:#8a7a68}
-.kpis{display:flex;gap:18px;margin-top:14px}
-.kpi{flex:1;background:#FFFBF5;border-radius:14px;padding:14px;text-align:center}
-.kpi b{font-size:1.4rem}
-.kpi span{font-size:.8rem;color:#666;display:block}
-section{max-width:1100px;margin:0 auto;padding:36px 24px}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
-.card{background:#fff;border:1px solid #E8DDD0;border-radius:16px;padding:20px}
-.card h3{font-size:1rem;margin-bottom:6px}
-.card p{font-size:.92rem;color:#555}
-.about{background:#111;color:#fff;border-radius:20px;padding:32px;display:grid;grid-template-columns:1.2fr .8fr;gap:24px;margin-top:10px}
-.about p{color:#c9c9c9}
-.about a{color:#fff;text-decoration:underline}
-footer{max-width:1100px;margin:0 auto;padding:28px 24px;color:#888;font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid #E8DDD0;margin-top:10px}
-@media(max-width:860px){.hero{grid-template-columns:1fr}.about{grid-template-columns:1fr}.cards{grid-template-columns:1fr}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>IndexCafe — Tecnología para cafeterías</title>
+
+    <meta
+        name="description"
+        content="IndexCafe desarrolla herramientas inteligentes para cafeterías independientes: inventario, ventas, menú y atención al cliente."
+    >
+
+    <style>
+        :root {
+            --black: #1d1d1f;
+            --black-2: #111113;
+            --gray: #86868b;
+            --gray-dark: #515154;
+            --light: #f5f5f7;
+
+            --coffee: #a8693b;
+            --coffee-light: #d6a173;
+            --coffee-dark: #51301b;
+
+            --green: #34c759;
+            --blue: #2997ff;
+
+            --glass: rgba(255, 255, 255, .58);
+            --glass-strong: rgba(255, 255, 255, .76);
+
+            --border: rgba(255, 255, 255, .80);
+
+            --shadow:
+                0 30px 80px rgba(52, 31, 17, .10);
+
+            --shadow-deep:
+                0 60px 140px rgba(35, 20, 10, .18);
+        }
+
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "SF Pro Display",
+                "SF Pro Text",
+                "Helvetica Neue",
+                Arial,
+                sans-serif;
+
+            background: #fff;
+            color: var(--black);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        /* =========================================================
+           AMBIENT BACKGROUND
+        ========================================================= */
+
+        .ambient {
+            position: fixed;
+            inset: 0;
+            z-index: -100;
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #fff 0%,
+                    #fbf8f5 38%,
+                    #f8f6f4 65%,
+                    #fff 100%
+                );
+        }
+
+        .ambient-grid {
+            position: absolute;
+            inset: 0;
+
+            opacity: .24;
+
+            background-image:
+                linear-gradient(
+                    rgba(70, 50, 35, .045) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(70, 50, 35, .045) 1px,
+                    transparent 1px
+                );
+
+            background-size: 64px 64px;
+
+            mask-image:
+                linear-gradient(
+                    to bottom,
+                    rgba(0, 0, 0, .45),
+                    transparent 75%
+                );
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 999px;
+            filter: blur(100px);
+            pointer-events: none;
+        }
+
+        .orb-one {
+            width: 650px;
+            height: 650px;
+
+            left: -250px;
+            top: -200px;
+
+            background: #d9ac84;
+            opacity: .30;
+        }
+
+        .orb-two {
+            width: 700px;
+            height: 700px;
+
+            right: -300px;
+            top: 260px;
+
+            background: #f0d8c2;
+            opacity: .40;
+        }
+
+        .orb-three {
+            width: 450px;
+            height: 450px;
+
+            left: 35%;
+            top: 700px;
+
+            background: #b97947;
+            opacity: .10;
+        }
+
+        /* =========================================================
+           NAV
+        ========================================================= */
+
+        header {
+            position: fixed;
+
+            top: 14px;
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            width: calc(100% - 32px);
+            max-width: 1100px;
+
+            z-index: 1000;
+
+            border:
+                1px solid rgba(255, 255, 255, .86);
+
+            border-radius: 22px;
+
+            background:
+                rgba(255, 255, 255, .60);
+
+            backdrop-filter:
+                blur(30px)
+                saturate(180%);
+
+            -webkit-backdrop-filter:
+                blur(30px)
+                saturate(180%);
+
+            box-shadow:
+                0 12px 45px rgba(0, 0, 0, .06);
+        }
+
+        .nav {
+            height: 58px;
+
+            padding: 0 22px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            font-size: 17px;
+            font-weight: 700;
+
+            letter-spacing: -.04em;
+        }
+
+        .brand-icon {
+            width: 27px;
+            height: 27px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 9px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #2e2118,
+                    #9f6438
+                );
+
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, .25),
+                0 6px 14px rgba(76, 43, 21, .18);
+        }
+
+        .brand span {
+            color: var(--coffee);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        nav a {
+            font-size: 13px;
+
+            text-decoration: none;
+
+            opacity: .63;
+
+            transition: .25s ease;
+        }
+
+        nav a:hover {
+            opacity: 1;
+        }
+
+        .nav-cta {
+            padding: 8px 15px;
+
+            border-radius: 999px;
+
+            color: white;
+
+            background: var(--black);
+
+            opacity: 1 !important;
+        }
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .hero {
+            width: 100%;
+
+            max-width: 1300px;
+
+            margin: auto;
+
+            padding:
+                175px 24px
+                160px;
+
+            text-align: center;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+
+            margin-bottom: 30px;
+
+            padding:
+                8px 14px;
+
+            border:
+                1px solid rgba(255, 255, 255, .9);
+
+            border-radius: 999px;
+
+            background:
+                rgba(255, 255, 255, .56);
+
+            backdrop-filter:
+                blur(20px);
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, .05);
+
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .eyebrow-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 999px;
+
+            background: var(--green);
+
+            box-shadow:
+                0 0 0 5px
+                rgba(52, 199, 89, .11);
+        }
+
+        .hero h1 {
+            max-width: 1000px;
+
+            margin: auto;
+
+            font-size:
+                clamp(
+                    3.4rem,
+                    7.5vw,
+                    6.8rem
+                );
+
+            font-weight: 700;
+
+            line-height: .94;
+
+            letter-spacing: -.07em;
+        }
+
+        .hero-gradient {
+            background:
+                linear-gradient(
+                    130deg,
+                    #3d2617,
+                    #a96b3c 60%,
+                    #d5a478
+                );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color: transparent;
+        }
+
+        .hero-description {
+            max-width: 720px;
+
+            margin:
+                34px auto 0;
+
+            font-size:
+                clamp(
+                    1.08rem,
+                    2vw,
+                    1.45rem
+                );
+
+            line-height: 1.5;
+
+            letter-spacing: -.02em;
+
+            color: var(--gray);
+        }
+
+        .hero-actions {
+            margin-top: 38px;
+
+            display: flex;
+            justify-content: center;
+            gap: 11px;
+
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            padding:
+                13px 22px;
+
+            border-radius: 999px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            text-decoration: none;
+
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            color: white;
+
+            background: var(--black);
+
+            box-shadow:
+                0 12px 35px
+                rgba(0, 0, 0, .15);
+        }
+
+        .btn-glass {
+            border:
+                1px solid
+                rgba(0, 0, 0, .06);
+
+            background:
+                rgba(255, 255, 255, .62);
+
+            backdrop-filter: blur(20px);
+        }
+
+        /* =========================================================
+           PRODUCT STAGE
+        ========================================================= */
+
+        .product-stage {
+            position: relative;
+
+            width: 100%;
+            max-width: 1180px;
+
+            min-height: 720px;
+
+            margin:
+                110px auto 0;
+
+            perspective: 1600px;
+        }
+
+        .stage-glow {
+            position: absolute;
+
+            left: 50%;
+            top: 50%;
+
+            width: 850px;
+            height: 520px;
+
+            transform:
+                translate(-50%, -45%);
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(184, 117, 66, .25),
+                    transparent 67%
+                );
+
+            filter: blur(25px);
+
+            pointer-events: none;
+        }
+
+        /* =========================================================
+           DASHBOARD
+        ========================================================= */
+
+        .dashboard-shell {
+            position: absolute;
+
+            left: 50%;
+            top: 70px;
+
+            width: 900px;
+            height: 540px;
+
+            transform:
+                translateX(-50%)
+                rotateX(5deg)
+                rotateY(-4deg);
+
+            transform-style: preserve-3d;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, .88);
+
+            border-radius: 30px;
+
+            padding: 10px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 255, 255, .82),
+                    rgba(255, 255, 255, .34)
+                );
+
+            backdrop-filter:
+                blur(38px)
+                saturate(160%);
+
+            box-shadow:
+                0 55px 130px
+                rgba(67, 39, 20, .21),
+                inset 0 1px 0
+                rgba(255, 255, 255, .8);
+
+            transition:
+                transform .6s
+                cubic-bezier(.2,.8,.2,1);
+        }
+
+        .dashboard-shell:hover {
+            transform:
+                translateX(-50%)
+                rotateX(2deg)
+                rotateY(-1deg)
+                translateY(-5px);
+        }
+
+        .dashboard {
+            width: 100%;
+            height: 100%;
+
+            overflow: hidden;
+
+            display: grid;
+
+            grid-template-columns:
+                155px 1fr;
+
+            border-radius: 23px;
+
+            background:
+                #f7f7f8;
+
+            text-align: left;
+
+            box-shadow:
+                inset 0 0 0 1px
+                rgba(0, 0, 0, .035);
+        }
+
+        /* sidebar */
+
+        .sidebar {
+            padding:
+                22px 14px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #191716,
+                    #241c17
+                );
+        }
+
+        .mini-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-bottom: 28px;
+
+            padding: 0 6px;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .mini-brand-badge {
+            width: 24px;
+            height: 24px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 8px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #7d4d2c,
+                    #c68a58
+                );
+        }
+
+        .menu-label {
+            margin:
+                20px 8px 8px;
+
+            font-size: 8px;
+
+            text-transform: uppercase;
+
+            letter-spacing: .09em;
+
+            color:
+                rgba(255,255,255,.32);
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+
+            gap: 9px;
+
+            padding:
+                9px 9px;
+
+            margin-bottom: 3px;
+
+            border-radius: 9px;
+
+            font-size: 9px;
+
+            color:
+                rgba(255,255,255,.52);
+        }
+
+        .menu-item svg {
+            width: 13px;
+            height: 13px;
+        }
+
+        .menu-item.active {
+            color: white;
+
+            background:
+                rgba(255,255,255,.085);
+        }
+
+        /* dashboard body */
+
+        .dashboard-main {
+            padding:
+                24px 25px;
+
+            overflow: hidden;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+        .dashboard-title small {
+            display: block;
+
+            margin-bottom: 3px;
+
+            font-size: 8px;
+
+            color: #98989c;
+        }
+
+        .dashboard-title strong {
+            font-size: 17px;
+
+            letter-spacing: -.04em;
+        }
+
+        .dashboard-profile {
+            display: flex;
+            align-items: center;
+
+            gap: 7px;
+
+            font-size: 8px;
+
+            color: #707074;
+        }
+
+        .avatar {
+            width: 28px;
+            height: 28px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 50%;
+
+            color: white;
+
+            font-weight: 700;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #8d5834,
+                    #cd9568
+                );
+        }
+
+        .dashboard-cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 11px;
+
+            margin-bottom: 13px;
+        }
+
+        .metric-card {
+            min-height: 83px;
+
+            padding: 14px;
+
+            border:
+                1px solid
+                rgba(0,0,0,.045);
+
+            border-radius: 14px;
+
+            background: white;
+
+            box-shadow:
+                0 6px 20px
+                rgba(0,0,0,.025);
+        }
+
+        .metric-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 12px;
+        }
+
+        .metric-icon {
+            width: 25px;
+            height: 25px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 8px;
+
+            background:
+                #f5ede7;
+
+            color: var(--coffee);
+        }
+
+        .metric-icon svg {
+            width: 13px;
+            height: 13px;
+        }
+
+        .status-pill {
+            padding:
+                3px 6px;
+
+            border-radius: 999px;
+
+            background:
+                #edf8ef;
+
+            color:
+                #2d8c42;
+
+            font-size: 6px;
+            font-weight: 700;
+        }
+
+        .metric-label {
+            font-size: 7px;
+
+            color: #9b9b9e;
+
+            margin-bottom: 3px;
+        }
+
+        .metric-value {
+            font-size: 16px;
+            font-weight: 700;
+
+            letter-spacing: -.04em;
+        }
+
+        .metric-value.demo {
+            font-size: 12px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+
+            grid-template-columns:
+                1.6fr 1fr;
+
+            gap: 12px;
+        }
+
+        .panel {
+            min-height: 195px;
+
+            padding: 15px;
+
+            border:
+                1px solid
+                rgba(0,0,0,.045);
+
+            border-radius: 15px;
+
+            background: white;
+        }
+
+        .panel-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 15px;
+        }
+
+        .panel-head strong {
+            font-size: 9px;
+        }
+
+        .panel-head span {
+            font-size: 7px;
+
+            color: #999;
+        }
+
+        /* fake chart */
+
+        .chart {
+            height: 120px;
+
+            position: relative;
+
+            display: flex;
+            align-items: flex-end;
+
+            gap: 9px;
+
+            padding-top: 10px;
+        }
+
+        .chart::before,
+        .chart::after {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            right: 0;
+
+            height: 1px;
+
+            background:
+                rgba(0,0,0,.05);
+        }
+
+        .chart::before {
+            top: 35%;
+        }
+
+        .chart::after {
+            top: 67%;
+        }
+
+        .bar {
+            position: relative;
+            z-index: 2;
+
+            flex: 1;
+
+            border-radius:
+                5px 5px 2px 2px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #c48a5c,
+                    #86502d
+                );
+        }
+
+        .bar:nth-child(1) { height: 30%; }
+        .bar:nth-child(2) { height: 46%; }
+        .bar:nth-child(3) { height: 37%; }
+        .bar:nth-child(4) { height: 62%; }
+        .bar:nth-child(5) { height: 52%; }
+        .bar:nth-child(6) { height: 75%; }
+        .bar:nth-child(7) { height: 67%; }
+        .bar:nth-child(8) { height: 88%; }
+
+        .orders {
+            display: flex;
+            flex-direction: column;
+
+            gap: 9px;
+        }
+
+        .order {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding-bottom: 8px;
+
+            border-bottom:
+                1px solid
+                rgba(0,0,0,.04);
+        }
+
+        .order:last-child {
+            border: none;
+        }
+
+        .order-info {
+            display: flex;
+            align-items: center;
+
+            gap: 8px;
+        }
+
+        .drink-icon {
+            width: 27px;
+            height: 27px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 9px;
+
+            background: #f7f2ee;
+        }
+
+        .drink-icon svg {
+            width: 13px;
+            color: var(--coffee);
+        }
+
+        .order strong {
+            display: block;
+
+            font-size: 7px;
+        }
+
+        .order small {
+            font-size: 6px;
+
+            color: #aaa;
+        }
+
+        .price {
+            font-size: 7px;
+
+            font-weight: 700;
+        }
+
+        /* =========================================================
+           FLOATING CARDS
+        ========================================================= */
+
+        .float-card {
+            position: absolute;
+
+            z-index: 20;
+
+            padding: 15px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.86);
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,.64);
+
+            backdrop-filter:
+                blur(28px)
+                saturate(180%);
+
+            -webkit-backdrop-filter:
+                blur(28px)
+                saturate(180%);
+
+            box-shadow:
+                0 25px 65px
+                rgba(45,25,14,.14);
+
+            text-align: left;
+
+            animation:
+                float 5s
+                ease-in-out
+                infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform:
+                    translateY(0);
+            }
+
+            50% {
+                transform:
+                    translateY(-10px);
+            }
+        }
+
+        .float-header {
+            display: flex;
+            align-items: center;
+
+            gap: 9px;
+
+            margin-bottom: 11px;
+        }
+
+        .float-icon {
+            width: 34px;
+            height: 34px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 11px;
+        }
+
+        .float-icon svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        .float-card strong {
+            display: block;
+
+            font-size: 11px;
+
+            letter-spacing: -.02em;
+        }
+
+        .float-card small {
+            font-size: 8px;
+
+            color: #8c8c91;
+        }
+
+        .float-card p {
+            font-size: 9px;
+
+            color: #626267;
+
+            line-height: 1.4;
+        }
+
+        .float-inventory {
+            left: -15px;
+            top: 165px;
+
+            width: 185px;
+
+            animation-delay: 0s;
+        }
+
+        .float-inventory .float-icon {
+            color: #9c6338;
+
+            background: #f3e8df;
+        }
+
+        .float-whatsapp {
+            right: -18px;
+            top: 115px;
+
+            width: 205px;
+
+            animation-delay: -1.8s;
+        }
+
+        .float-whatsapp .float-icon {
+            color: #1d9d4a;
+
+            background: #e9f8ee;
+        }
+
+        .float-sales {
+            right: 16px;
+            bottom: 35px;
+
+            width: 195px;
+
+            animation-delay: -3s;
+        }
+
+        .float-sales .float-icon {
+            color: #246db7;
+
+            background: #eaf3fb;
+        }
+
+        .float-ai {
+            left: 25px;
+            bottom: 12px;
+
+            width: 205px;
+
+            animation-delay: -2.2s;
+        }
+
+        .float-ai .float-icon {
+            color: #7e4db1;
+
+            background: #f0e9f8;
+        }
+
+        .mini-progress {
+            height: 5px;
+
+            margin-top: 10px;
+
+            overflow: hidden;
+
+            border-radius: 999px;
+
+            background:
+                rgba(0,0,0,.06);
+        }
+
+        .mini-progress span {
+            display: block;
+
+            width: 72%;
+            height: 100%;
+
+            border-radius: inherit;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #a4663a,
+                    #d39b6b
+                );
+        }
+
+        /* reflection */
+
+        .reflection {
+            position: absolute;
+
+            left: 50%;
+            bottom: 10px;
+
+            width: 760px;
+            height: 95px;
+
+            transform:
+                translateX(-50%);
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    ellipse,
+                    rgba(75,45,25,.18),
+                    transparent 68%
+                );
+
+            filter: blur(22px);
+
+            opacity: .55;
+        }
+
+        .demo-label {
+            position: absolute;
+
+            left: 50%;
+            bottom: 70px;
+
+            transform:
+                translateX(-50%);
+
+            font-size: 10px;
+
+            color: #9a9a9f;
+        }
+
+        /* =========================================================
+           PRODUCT SECTION — REFINED
+        ========================================================= */
+
+        .section-kicker {
+            margin-bottom: 10px;
+            color: var(--coffee);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .product-section {
+            max-width: 1180px;
+            margin: auto;
+            padding: 130px 24px;
+        }
+
+        .product-heading {
+            max-width: 840px;
+            margin-bottom: 55px;
+        }
+
+        .product-heading h2 {
+            font-size: clamp(3rem, 6vw, 5.4rem);
+            line-height: .95;
+            letter-spacing: -.065em;
+        }
+
+        .product-heading h2 span {
+            color: #96969b;
+        }
+
+        .product-heading > p {
+            max-width: 640px;
+            margin-top: 25px;
+            color: var(--gray);
+            font-size: 19px;
+            line-height: 1.55;
+        }
+
+        .product-overview {
+            display: grid;
+            grid-template-columns: .75fr 1.25fr;
+            gap: 30px;
+            min-height: 490px;
+            padding: 44px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,.9);
+            background: rgba(255,255,255,.60);
+            backdrop-filter: blur(35px);
+            -webkit-backdrop-filter: blur(35px);
+            box-shadow: 0 30px 90px rgba(55,30,15,.08);
+        }
+
+        .overview-copy {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .product-icon-large {
+            width: 55px;
+            height: 55px;
+            display: grid;
+            place-items: center;
+            color: var(--coffee);
+            border-radius: 17px;
+            background: #f4e9e0;
+        }
+
+        .product-icon-large svg { width: 27px; }
+
+        .overview-copy small {
+            display: block;
+            color: var(--coffee);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .overview-copy h3 {
+            max-width: 390px;
+            font-size: clamp(2.2rem, 4vw, 3.8rem);
+            line-height: 1;
+            letter-spacing: -.055em;
+        }
+
+        .overview-copy p {
+            max-width: 400px;
+            margin-top: 18px;
+            color: var(--gray);
+            line-height: 1.55;
+        }
+
+        .overview-chart {
+            position: relative;
+            min-height: 400px;
+            padding: 28px;
+            overflow: hidden;
+            border-radius: 28px;
+            background: linear-gradient(145deg, #181614, #2b2018);
+            box-shadow: 0 25px 60px rgba(30,20,12,.15);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chart-header small {
+            display: block;
+            color: rgba(255,255,255,.38);
+            font-size: 10px;
+            margin-bottom: 4px;
+        }
+
+        .chart-header strong {
+            color: white;
+            font-size: 14px;
+        }
+
+        .chart-status {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: rgba(255,255,255,.45);
+            font-size: 9px;
+        }
+
+        .chart-status span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #34c759;
+            box-shadow: 0 0 0 5px rgba(52,199,89,.10);
+        }
+
+        .line-chart {
+            position: relative;
+            height: 265px;
+            margin-top: 30px;
+        }
+
+        .line-chart svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .chart-line-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px);
+            background-size: 100% 53px;
+        }
+
+        .chart-labels {
+            display: flex;
+            justify-content: space-between;
+            color: rgba(255,255,255,.3);
+            font-size: 8px;
+        }
+
+        .chart-point {
+            position: absolute;
+            width: 9px;
+            height: 9px;
+            border: 2px solid white;
+            border-radius: 50%;
+            background: #b87542;
+            box-shadow: 0 0 0 5px rgba(184,117,66,.16);
+        }
+
+        .point-one { left: 40%; top: 48%; }
+        .point-two { left: 72%; top: 29%; }
+        .point-three { right: 1%; top: 13%; }
+
+        .product-features {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 18px;
+            margin-top: 18px;
+        }
+
+        .product-feature {
+            position: relative;
+            min-height: 280px;
+            padding: 30px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,.9);
+            border-radius: 30px;
+            background: rgba(255,255,255,.62);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            box-shadow: 0 20px 60px rgba(0,0,0,.045);
+            transition: transform .35s ease, box-shadow .35s ease;
+        }
+
+        .product-feature:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 26px 72px rgba(0,0,0,.07);
+        }
+
+        .product-feature-icon {
+            width: 45px;
+            height: 45px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 25px;
+            border-radius: 14px;
+        }
+
+        .product-feature-icon svg { width: 21px; }
+        .inventory-color { color: #9b6037; background: #f3e7de; }
+        .whatsapp-color { color: #239c50; background: #e6f7eb; }
+        .sales-color { color: #2474be; background: #e8f2fb; }
+
+        .product-feature h3 {
+            margin-bottom: 9px;
+            font-size: 25px;
+            letter-spacing: -.04em;
+        }
+
+        .product-feature p {
+            color: var(--gray);
+            line-height: 1.5;
+            font-size: 14px;
+            max-width: 280px;
+        }
+
+        .feature-mini-ui {
+            position: absolute;
+            bottom: 27px;
+            left: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .feature-mini-ui span {
+            height: 6px;
+            border-radius: 999px;
+            background: #e8e3df;
+        }
+
+        .feature-mini-ui span:nth-child(1) { width: 85%; }
+        .feature-mini-ui span:nth-child(2) { width: 63%; }
+        .feature-mini-ui span:nth-child(3) { width: 74%; }
+
+        .message-preview {
+            position: absolute;
+            bottom: 23px;
+            left: 30px;
+            right: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px;
+            border-radius: 14px;
+            background: #f6f6f7;
+        }
+
+        .message-avatar {
+            width: 29px;
+            height: 29px;
+            display: grid;
+            place-items: center;
+            color: white;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #3da966, #1e8449);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .message-preview div:last-child { flex: 1; }
+        .message-preview span {
+            display: block;
+            height: 5px;
+            margin: 4px 0;
+            border-radius: 999px;
+            background: #dedee1;
+        }
+        .message-preview span:first-child { width: 75%; }
+        .message-preview span:last-child { width: 48%; }
+
+        .mini-bars {
+            position: absolute;
+            left: 30px;
+            right: 30px;
+            bottom: 24px;
+            height: 55px;
+            display: flex;
+            align-items: flex-end;
+            gap: 7px;
+        }
+
+        .mini-bars span {
+            flex: 1;
+            border-radius: 5px 5px 2px 2px;
+            background: linear-gradient(#6ba9df, #2b72b0);
+        }
+        .mini-bars span:nth-child(1) { height: 28%; }
+        .mini-bars span:nth-child(2) { height: 45%; }
+        .mini-bars span:nth-child(3) { height: 34%; }
+        .mini-bars span:nth-child(4) { height: 70%; }
+        .mini-bars span:nth-child(5) { height: 90%; }
+
+        .ai-product {
+            display: grid;
+            grid-template-columns: auto 1fr 1fr;
+            align-items: center;
+            gap: 40px;
+            margin-top: 18px;
+            padding: 42px;
+            border-radius: 35px;
+            color: white;
+            background: linear-gradient(125deg, #171513, #342218);
+            box-shadow: 0 30px 80px rgba(35,20,10,.13);
+        }
+
+        .ai-symbol {
+            width: 60px;
+            height: 60px;
+            display: grid;
+            place-items: center;
+            border-radius: 19px;
+            color: #d9a57d;
+            background: rgba(255,255,255,.075);
+        }
+
+        .ai-symbol svg { width: 28px; }
+        .ai-copy small { color: #c9946d; font-weight: 600; }
+
+        .ai-copy h3 {
+            margin: 7px 0 11px;
+            font-size: 28px;
+            letter-spacing: -.04em;
+        }
+
+        .ai-copy p {
+            max-width: 430px;
+            color: rgba(255,255,255,.56);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .ai-example {
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 20px;
+            background: rgba(255,255,255,.055);
+            backdrop-filter: blur(18px);
+        }
+
+        .ai-example-header {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 15px;
+            color: rgba(255,255,255,.45);
+            font-size: 9px;
+        }
+
+        .ai-status {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #34c759;
+        }
+
+        .ai-example > p {
+            color: rgba(255,255,255,.82);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .ai-answer {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin-top: 14px;
+            padding: 11px;
+            border-radius: 12px;
+            background: rgba(255,255,255,.06);
+        }
+
+        .ai-answer-icon { color: #d3a37d; }
+        .ai-answer span { color: rgba(255,255,255,.46); font-size: 9px; }
+
+        /* =========================================================
+           STORY
+        ========================================================= */
+
+        .story {
+            max-width: 1180px;
+
+            margin: auto;
+
+            padding:
+                60px 24px
+                140px;
+        }
+
+        .story-card {
+            position: relative;
+
+            min-height: 600px;
+
+            display: flex;
+            align-items: flex-end;
+
+            overflow: hidden;
+
+            padding: 60px;
+
+            border-radius: 44px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    125deg,
+                    #16120f,
+                    #362218 58%,
+                    #8e5933
+                );
+
+            box-shadow:
+                var(--shadow-deep);
+        }
+
+        .story-card::before {
+            content: "";
+
+            position: absolute;
+
+            right: -160px;
+            top: -180px;
+
+            width: 620px;
+            height: 620px;
+
+            border-radius: 50%;
+
+            background:
+                #be7643;
+
+            filter: blur(120px);
+
+            opacity: .19;
+        }
+
+        .story-grain {
+            position: absolute;
+            inset: 0;
+
+            opacity: .16;
+
+            background-image:
+                radial-gradient(
+                    rgba(255,255,255,.22) .8px,
+                    transparent .8px
+                );
+
+            background-size:
+                13px 13px;
+
+            mask-image:
+                linear-gradient(
+                    110deg,
+                    transparent,
+                    #000
+                );
+        }
+
+        .story-content {
+            position: relative;
+            z-index: 2;
+
+            max-width: 780px;
+        }
+
+        .story-content small {
+            color: #dcaa82;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+        .story-content h2 {
+            margin:
+                14px 0 27px;
+
+            font-size:
+                clamp(
+                    3rem,
+                    6vw,
+                    5.3rem
+                );
+
+            line-height: .95;
+
+            letter-spacing: -.06em;
+        }
+
+        .story-content p {
+            max-width: 700px;
+
+            color:
+                rgba(255,255,255,.7);
+
+            font-size: 18px;
+
+            line-height: 1.65;
+        }
+
+        /* =========================================================
+           CONTACT
+        ========================================================= */
+
+        .contact-section {
+            position: relative;
+            max-width: 1180px;
+            margin: 40px auto 130px;
+            padding: 120px 30px;
+            overflow: hidden;
+            text-align: center;
+            border-radius: 44px;
+            color: white;
+            background: linear-gradient(130deg, #161412, #302117);
+            box-shadow: 0 45px 120px rgba(44,25,13,.16);
+        }
+
+        .contact-glow {
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(190,117,68,.27), transparent 67%);
+            filter: blur(40px);
+        }
+
+        .contact-content { position: relative; z-index: 2; }
+
+        .contact-icon {
+            width: 58px;
+            height: 58px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 24px;
+            border: 1px solid rgba(255,255,255,.10);
+            border-radius: 19px;
+            color: #ddb18e;
+            background: rgba(255,255,255,.065);
+        }
+
+        .contact-icon svg { width: 26px; }
+
+        .contact-section h2 {
+            max-width: 850px;
+            margin: auto;
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            line-height: .95;
+            letter-spacing: -.065em;
+        }
+
+        .contact-section p {
+            max-width: 590px;
+            margin: 27px auto 35px;
+            color: rgba(255,255,255,.55);
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .contact-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .contact-section .btn-glass {
+            color: white;
+            border: 1px solid rgba(255,255,255,.10);
+            background: rgba(255,255,255,.075);
+        }
+
+        .contact-copy {
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .contact-address {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 26px;
+            color: rgba(255,255,255,.38);
+            font-size: 11px;
+        }
+
+        .contact-address span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #34c759;
+            box-shadow: 0 0 0 4px rgba(52,199,89,.10);
+        }
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        footer {
+            padding:
+                60px 24px
+                30px;
+
+            border-top:
+                1px solid
+                rgba(0,0,0,.05);
+
+            background:
+                #f5f5f7;
+        }
+
+        .footer-inner {
+            max-width: 1080px;
+
+            margin: auto;
+        }
+
+        .footer-top {
+            display: grid;
+
+            grid-template-columns:
+                2fr 1fr 1fr;
+
+            gap: 45px;
+
+            padding-bottom: 40px;
+        }
+
+        .footer-title {
+            margin-bottom: 12px;
+
+            color: var(--black);
+
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+
+            gap: 7px;
+        }
+
+        .footer-inner p,
+        .footer-inner a {
+            color: #6e6e73;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+
+            text-decoration: none;
+        }
+
+        .footer-inner a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            flex-wrap: wrap;
+
+            padding-top: 22px;
+
+            border-top:
+                1px solid
+                rgba(0,0,0,.10);
+        }
+
+        .legal-links {
+            display: flex;
+            gap: 16px;
+
+            flex-wrap: wrap;
+        }
+
+        /* =========================================================
+           LEGAL
+        ========================================================= */
+
+        dialog {
+            width:
+                calc(100% - 35px);
+
+            max-width: 720px;
+
+            padding: 0;
+
+            border: none;
+
+            border-radius: 30px;
+
+            background:
+                rgba(255,255,255,.93);
+
+            backdrop-filter:
+                blur(40px)
+                saturate(160%);
+
+            box-shadow:
+                0 40px 130px
+                rgba(0,0,0,.27);
+        }
+
+        dialog::backdrop {
+            background:
+                rgba(0,0,0,.30);
+
+            backdrop-filter:
+                blur(10px);
+        }
+
+        .modal {
+            padding: 40px;
+        }
+
+        .modal h2 {
+            margin-bottom: 18px;
+
+            font-size: 30px;
+
+            letter-spacing: -.04em;
+        }
+
+        .modal p {
+            margin-bottom: 13px;
+
+            color: var(--gray-dark);
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+        .modal button {
+            margin-top: 14px;
+
+            padding:
+                10px 18px;
+
+            border: none;
+            border-radius: 999px;
+
+            color: white;
+
+            background: var(--black);
+
+            cursor: pointer;
+
+            font-weight: 600;
+        }
+
+        /* =========================================================
+           COOKIE
+        ========================================================= */
+
+        .cookie-bar {
+            position: fixed;
+
+            z-index: 5000;
+
+            left: 50%;
+            bottom: 18px;
+
+            transform:
+                translateX(-50%);
+
+            width:
+                calc(100% - 34px);
+
+            max-width: 620px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 18px;
+
+            padding:
+                14px 15px 14px 19px;
+
+            color: white;
+
+            border:
+                1px solid
+                rgba(255,255,255,.13);
+
+            border-radius: 22px;
+
+            background:
+                rgba(25,25,27,.84);
+
+            backdrop-filter:
+                blur(30px)
+                saturate(180%);
+
+            box-shadow:
+                0 25px 75px
+                rgba(0,0,0,.26);
+        }
+
+        .cookie-bar p {
+            color:
+                rgba(255,255,255,.7);
+
+            font-size: 11px;
+
+            line-height: 1.45;
+        }
+
+        .cookie-bar button {
+            flex-shrink: 0;
+
+            padding:
+                9px 15px;
+
+            border: none;
+            border-radius: 999px;
+
+            background: white;
+
+            color: #111;
+
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+        /* =========================================================
+           SCROLL ANIMATION
+        ========================================================= */
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(45px) scale(.985);
+            filter: blur(7px);
+            transition:
+                opacity .75s cubic-bezier(.2,.8,.2,1),
+                transform .75s cubic-bezier(.2,.8,.2,1),
+                filter .75s ease;
+        }
+
+        .reveal.from-left { transform: translateX(-45px) scale(.985); }
+        .reveal.from-right { transform: translateX(45px) scale(.985); }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translate(0,0) scale(1);
+            filter: blur(0);
+        }
+
+        .stagger > * {
+            opacity: 0;
+            transform: translateY(35px) scale(.98);
+            transition:
+                opacity .65s cubic-bezier(.2,.8,.2,1),
+                transform .65s cubic-bezier(.2,.8,.2,1);
+        }
+
+        .stagger.visible > * {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .stagger.visible > *:nth-child(1) { transition-delay: .05s; }
+        .stagger.visible > *:nth-child(2) { transition-delay: .14s; }
+        .stagger.visible > *:nth-child(3) { transition-delay: .23s; }
+        .stagger.visible > *:nth-child(4) { transition-delay: .32s; }
+
+        .dashboard-shell { will-change: transform; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal,
+            .stagger > *,
+            .float-card {
+                animation: none !important;
+                transition: none !important;
+                transform: none !important;
+                opacity: 1 !important;
+                filter: none !important;
+            }
+        }
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media(max-width: 1050px) {
+            .product-stage {
+                transform: scale(.86);
+                transform-origin: top center;
+                margin-bottom: -90px;
+            }
+        }
+
+        @media(max-width: 850px) {
+            nav { display: none; }
+
+            .hero { padding-top: 155px; }
+
+            .product-stage {
+                min-height: 600px;
+                transform: scale(.66);
+                transform-origin: top center;
+                margin-bottom: -200px;
+            }
+
+            .product-overview { grid-template-columns: 1fr; }
+            .overview-copy { min-height: 300px; }
+            .product-features { grid-template-columns: 1fr; }
+            .ai-product { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr; }
+
+            .contact-section {
+                margin-left: 18px;
+                margin-right: 18px;
+                padding: 85px 24px;
+                border-radius: 34px;
+            }
+        }
+
+        @media(max-width: 600px) {
+            .hero {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+            .hero-description { font-size: 17px; }
+
+            .product-stage {
+                width: 900px;
+                left: 50%;
+                transform: translateX(-50%) scale(.47);
+                transform-origin: top center;
+                margin-bottom: -310px;
+            }
+
+            .product-section { padding: 90px 18px; }
+            .product-overview { padding: 24px; border-radius: 30px; }
+            .overview-chart { min-height: 340px; padding: 20px; }
+            .line-chart { height: 220px; }
+            .product-feature { min-height: 260px; }
+            .ai-product { padding: 30px; }
+
+            .story { padding: 40px 18px 100px; }
+            .story-card { min-height: 590px; padding: 35px; }
+
+            .contact-section h2 { font-size: clamp(2.6rem, 12vw, 4rem); }
+            .cookie-bar { align-items: flex-start; }
+        }
+
+    </style>
 </head>
+
 <body>
-<header>
-  <div class="logo">index<span>cafe</span>.tech</div>
-  <nav><a href="#producto">Producto</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a></nav>
-</header>
-<div class="hero">
-  <div>
-    <h1>Damos superpoderes de <em>IA a cafeterías</em> independientes.</h1>
-    <p>IndexCafe es una plataforma para gestionar menú, inventario, pedidos y atención al cliente con IA. Nacimos operando cafeterías — ahora construimos el software que nos hubiera gustado tener.</p>
-    <div class="cta">
-      <a class="btn btn-primary" href="mailto:hola@indexcafe.tech">hola@indexcafe.tech</a>
-      <a class="btn btn-ghost" href="#producto">Ver demo</a>
-    </div>
-  </div>
-  <div class="hero-card">
-    <h3>En producción hoy</h3>
-    <p style="margin-top:8px;font-weight:600">Asistente IndexCafe para WhatsApp + punto de venta</p>
-    <p style="color:#666;font-size:.9rem;margin-top:4px">Responde clientes, toma pedidos y predice stock. Construido con Claude API.</p>
-    <div class="kpis">
-      <div class="kpi"><b>3</b><span>marcas operadas</span></div>
-      <div class="kpi"><b>24/7</b><span>atención IA</span></div>
-      <div class="kpi"><b>-30%</b><span>merma</span></div>
-    </div>
-  </div>
+
+<!-- =========================================================
+     AMBIENT
+========================================================= -->
+
+<div class="ambient">
+    <div class="ambient-grid"></div>
+    <div class="orb orb-one"></div>
+    <div class="orb orb-two"></div>
+    <div class="orb orb-three"></div>
 </div>
-<section id="producto">
-  <h2 style="font-size:1.35rem">Qué hace IndexCafe</h2>
-  <div class="cards">
-    <div class="card"><h3>☕ Menú inteligente</h3><p>Actualiza precios, disponibilidad y fotos desde un solo panel. Sincroniza con WhatsApp e Instagram.</p></div>
-    <div class="card"><h3>📦 Inventario predictivo</h3><p>IA que anticipa compras de leche, café y repostería según clima, eventos y ventas históricas.</p></div>
-    <div class="card"><h3>💬 Atención con Claude</h3><p>Bot que responde como tu mejor barista: conoce tu carta, recomienda y cierra pedidos solo.</p></div>
-  </div>
+
+
+<!-- =========================================================
+     NAV
+========================================================= -->
+
+<header>
+
+    <div class="nav">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    width="15"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                >
+                    <path d="M6 8h10v6a5 5 0 0 1-5 5 5 5 0 0 1-5-5V8Z"/>
+                    <path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16"/>
+                    <path d="M8 5c0-1 1-1.5 1-2.5"/>
+                    <path d="M12 5c0-1 1-1.5 1-2.5"/>
+                </svg>
+
+            </div>
+
+            index<span>cafe</span>.tech
+
+        </div>
+
+
+        <nav>
+
+            <a href="#producto">
+                Producto
+            </a>
+
+            <a href="#historia">
+                Historia
+            </a>
+
+            <a href="#contacto">
+                Contacto
+            </a>
+
+            <a
+                class="nav-cta"
+                href="#contacto"
+            >
+                Hablemos
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<main>
+
+<section class="hero">
+
+    <div class="eyebrow">
+
+        <span class="eyebrow-dot"></span>
+
+        Construyendo desde El Salvador
+
+    </div>
+
+
+    <h1>
+
+        La operación de tu café,
+
+        <span class="hero-gradient">
+            finalmente conectada.
+        </span>
+
+    </h1>
+
+
+    <p class="hero-description">
+
+        IndexCafe reúne inventario, ventas,
+        menú y atención al cliente en una
+        experiencia sencilla para cafeterías
+        independientes.
+
+    </p>
+
+
+    <div class="hero-actions">
+
+        <a
+            href="mailto:hola@indexcafe.tech"
+            class="btn btn-primary"
+        >
+            Hablar con nosotros
+
+            <svg
+                width="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+            >
+                <path d="M5 12h14"/>
+                <path d="m13 6 6 6-6 6"/>
+            </svg>
+
+        </a>
+
+
+        <a
+            href="#producto"
+            class="btn btn-glass"
+        >
+            Conocer IndexCafe
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         PRODUCT SHOWCASE
+    ====================================================== -->
+
+    <div class="product-stage">
+
+        <div class="stage-glow"></div>
+
+
+        <!-- DASHBOARD -->
+
+        <div class="dashboard-shell">
+
+            <div class="dashboard">
+
+
+                <!-- SIDEBAR -->
+
+                <aside class="sidebar">
+
+                    <div class="mini-brand">
+
+                        <div class="mini-brand-badge">
+
+                            <svg
+                                width="13"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path d="M6 8h10v6a5 5 0 0 1-5 5 5 5 0 0 1-5-5V8Z"/>
+                                <path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16"/>
+                            </svg>
+
+                        </div>
+
+                        IndexCafe
+
+                    </div>
+
+
+                    <div class="menu-label">
+                        Operación
+                    </div>
+
+
+                    <div class="menu-item active">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                        >
+                            <rect x="3" y="3" width="7" height="7" rx="2"/>
+                            <rect x="14" y="3" width="7" height="7" rx="2"/>
+                            <rect x="3" y="14" width="7" height="7" rx="2"/>
+                            <rect x="14" y="14" width="7" height="7" rx="2"/>
+                        </svg>
+
+                        Resumen
+
+                    </div>
+
+
+                    <div class="menu-item">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                        >
+                            <path d="M4 19V9"/>
+                            <path d="M10 19V5"/>
+                            <path d="M16 19v-7"/>
+                            <path d="M22 19V3"/>
+                        </svg>
+
+                        Ventas
+
+                    </div>
+
+
+                    <div class="menu-item">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                        >
+                            <path d="M4 7h16"/>
+                            <path d="M5 7l1 13h12l1-13"/>
+                            <path d="M9 11v5"/>
+                            <path d="M15 11v5"/>
+                            <path d="M8 7l1-3h6l1 3"/>
+                        </svg>
+
+                        Inventario
+
+                    </div>
+
+
+                    <div class="menu-item">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                        >
+                            <path d="M4 6h16"/>
+                            <path d="M4 12h16"/>
+                            <path d="M4 18h10"/>
+                        </svg>
+
+                        Menú
+
+                    </div>
+
+
+                    <div class="menu-label">
+                        Clientes
+                    </div>
+
+
+                    <div class="menu-item">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                        >
+                            <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"/>
+                        </svg>
+
+                        Mensajes
+
+                    </div>
+
+
+                    <div class="menu-item">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                        >
+                            <circle cx="12" cy="8" r="4"/>
+                            <path d="M4 21a8 8 0 0 1 16 0"/>
+                        </svg>
+
+                        Clientes
+
+                    </div>
+
+
+                    <div class="menu-label">
+                        Inteligencia
+                    </div>
+
+
+                    <div class="menu-item">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                        >
+                            <path d="M12 3v3"/>
+                            <path d="M12 18v3"/>
+                            <path d="m4.2 6.2 2.1 2.1"/>
+                            <path d="m17.7 15.7 2.1 2.1"/>
+                            <path d="M3 12h3"/>
+                            <path d="M18 12h3"/>
+                            <path d="m6.3 15.7-2.1 2.1"/>
+                            <path d="m19.8 6.2-2.1 2.1"/>
+                            <circle cx="12" cy="12" r="4"/>
+                        </svg>
+
+                        Asistente AI
+
+                    </div>
+
+                </aside>
+
+
+                <!-- MAIN -->
+
+                <div class="dashboard-main">
+
+
+                    <div class="dashboard-header">
+
+                        <div class="dashboard-title">
+
+                            <small>
+                                Vista general
+                            </small>
+
+                            <strong>
+                                Buen día 👋
+                            </strong>
+
+                        </div>
+
+
+                        <div class="dashboard-profile">
+
+                            Vista conceptual
+
+                            <div class="avatar">
+                                IC
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- METRICS -->
+
+                    <div class="dashboard-cards">
+
+
+                        <div class="metric-card">
+
+                            <div class="metric-top">
+
+                                <div class="metric-icon">
+
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path d="M4 19V9"/>
+                                        <path d="M10 19V5"/>
+                                        <path d="M16 19v-7"/>
+                                        <path d="M22 19V3"/>
+                                    </svg>
+
+                                </div>
+
+                                <span class="status-pill">
+                                    Operación
+                                </span>
+
+                            </div>
+
+                            <div class="metric-label">
+                                Ventas
+                            </div>
+
+                            <div class="metric-value demo">
+                                Vista consolidada
+                            </div>
+
+                        </div>
+
+
+                        <div class="metric-card">
+
+                            <div class="metric-top">
+
+                                <div class="metric-icon">
+
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path d="M4 7h16"/>
+                                        <path d="M5 7l1 13h12l1-13"/>
+                                        <path d="M8 7l1-3h6l1 3"/>
+                                    </svg>
+
+                                </div>
+
+                            </div>
+
+                            <div class="metric-label">
+                                Inventario
+                            </div>
+
+                            <div class="metric-value demo">
+                                Existencias claras
+                            </div>
+
+                        </div>
+
+
+                        <div class="metric-card">
+
+                            <div class="metric-top">
+
+                                <div class="metric-icon">
+
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"/>
+                                    </svg>
+
+                                </div>
+
+                            </div>
+
+                            <div class="metric-label">
+                                Clientes
+                            </div>
+
+                            <div class="metric-value demo">
+                                Conversaciones
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PANELS -->
+
+                    <div class="dashboard-grid">
+
+
+                        <div class="panel">
+
+                            <div class="panel-head">
+
+                                <strong>
+                                    Movimiento del negocio
+                                </strong>
+
+                                <span>
+                                    Ejemplo visual
+                                </span>
+
+                            </div>
+
+                            <div class="chart">
+
+                                <span class="bar"></span>
+                                <span class="bar"></span>
+                                <span class="bar"></span>
+                                <span class="bar"></span>
+                                <span class="bar"></span>
+                                <span class="bar"></span>
+                                <span class="bar"></span>
+                                <span class="bar"></span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="panel">
+
+                            <div class="panel-head">
+
+                                <strong>
+                                    Productos recientes
+                                </strong>
+
+                                <span>
+                                    Menú
+                                </span>
+
+                            </div>
+
+
+                            <div class="orders">
+
+
+                                <div class="order">
+
+                                    <div class="order-info">
+
+                                        <div class="drink-icon">
+
+                                            <svg
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                            >
+                                                <path d="M6 8h10v6a5 5 0 0 1-5 5 5 5 0 0 1-5-5V8Z"/>
+                                                <path d="M16 10h2a2 2 0 0 1 0 4h-2"/>
+                                            </svg>
+
+                                        </div>
+
+                                        <div>
+                                            <strong>
+                                                Cappuccino
+                                            </strong>
+
+                                            <small>
+                                                Bebida
+                                            </small>
+                                        </div>
+
+                                    </div>
+
+                                    <span class="price">
+                                        Menú
+                                    </span>
+
+                                </div>
+
+
+                                <div class="order">
+
+                                    <div class="order-info">
+
+                                        <div class="drink-icon">
+
+                                            <svg
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                            >
+                                                <path d="M6 8h10v6a5 5 0 0 1-5 5 5 5 0 0 1-5-5V8Z"/>
+                                                <path d="M16 10h2a2 2 0 0 1 0 4h-2"/>
+                                            </svg>
+
+                                        </div>
+
+                                        <div>
+                                            <strong>
+                                                Latte
+                                            </strong>
+
+                                            <small>
+                                                Bebida
+                                            </small>
+                                        </div>
+
+                                    </div>
+
+                                    <span class="price">
+                                        Menú
+                                    </span>
+
+                                </div>
+
+
+                                <div class="order">
+
+                                    <div class="order-info">
+
+                                        <div class="drink-icon">
+
+                                            <svg
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                            >
+                                                <path d="M6 8h10v6a5 5 0 0 1-5 5 5 5 0 0 1-5-5V8Z"/>
+                                                <path d="M16 10h2a2 2 0 0 1 0 4h-2"/>
+                                            </svg>
+
+                                        </div>
+
+                                        <div>
+                                            <strong>
+                                                Cold Brew
+                                            </strong>
+
+                                            <small>
+                                                Bebida
+                                            </small>
+                                        </div>
+
+                                    </div>
+
+                                    <span class="price">
+                                        Menú
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- FLOAT INVENTORY -->
+
+        <div class="float-card float-inventory">
+
+            <div class="float-header">
+
+                <div class="float-icon">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <path d="M4 7h16"/>
+                        <path d="M5 7l1 13h12l1-13"/>
+                        <path d="M9 11v5"/>
+                        <path d="M15 11v5"/>
+                        <path d="M8 7l1-3h6l1 3"/>
+                    </svg>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        Inventario
+                    </strong>
+
+                    <small>
+                        Control centralizado
+                    </small>
+
+                </div>
+
+            </div>
+
+            <p>
+                Visualiza existencias y movimientos
+                desde un mismo lugar.
+            </p>
+
+            <div class="mini-progress">
+                <span></span>
+            </div>
+
+        </div>
+
+
+        <!-- FLOAT WHATSAPP -->
+
+        <div class="float-card float-whatsapp">
+
+            <div class="float-header">
+
+                <div class="float-icon">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <path d="M21 11.5a8.4 8.4 0 0 1-9 8.5 9 9 0 0 1-4-1l-5 1 1.5-4A8.5 8.5 0 1 1 21 11.5Z"/>
+                        <path d="M8.5 8.5c.7 2.5 2.5 4.3 5 5"/>
+                    </svg>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        WhatsApp
+                    </strong>
+
+                    <small>
+                        Atención inteligente
+                    </small>
+
+                </div>
+
+            </div>
+
+            <p>
+                “Hola 👋 ¿Qué bebidas tienen
+                disponibles hoy?”
+            </p>
+
+        </div>
+
+
+        <!-- FLOAT SALES -->
+
+        <div class="float-card float-sales">
+
+            <div class="float-header">
+
+                <div class="float-icon">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <path d="M4 19V9"/>
+                        <path d="M10 19V5"/>
+                        <path d="M16 19v-7"/>
+                        <path d="M22 19V3"/>
+                    </svg>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        Ventas
+                    </strong>
+
+                    <small>
+                        Información útil
+                    </small>
+
+                </div>
+
+            </div>
+
+            <p>
+                Entiende mejor cómo se mueve
+                tu operación.
+            </p>
+
+        </div>
+
+
+        <!-- FLOAT AI -->
+
+        <div class="float-card float-ai">
+
+            <div class="float-header">
+
+                <div class="float-icon">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <path d="M12 3v3"/>
+                        <path d="M12 18v3"/>
+                        <path d="m4.2 6.2 2.1 2.1"/>
+                        <path d="m17.7 15.7 2.1 2.1"/>
+                        <path d="M3 12h3"/>
+                        <path d="M18 12h3"/>
+                        <circle cx="12" cy="12" r="4"/>
+                    </svg>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        IndexCafe AI
+                    </strong>
+
+                    <small>
+                        Asistencia operativa
+                    </small>
+
+                </div>
+
+            </div>
+
+            <p>
+                Contexto del negocio para ayudar
+                al equipo a decidir mejor.
+            </p>
+
+        </div>
+
+
+        <div class="reflection"></div>
+
+        <div class="demo-label">
+            Representación conceptual de IndexCafe
+        </div>
+
+    </div>
+
 </section>
-<section id="nosotros" class="about">
-  <div>
-    <h2 style="font-size:1.2rem">De cafeteros para cafeteros</h2>
-    <p style="margin-top:10px">Venimos de operar proyectos como <b style="color:#fff">El Café de Van Gogh</b>, <b style="color:#fff">BebidasChiv@s</b> y <b style="color:#fff">Fashion World</b> en El Salvador. Conocemos el caos de un sábado a las 8am — por eso construimos IndexCafe junto a micro-cafeterías locales.</p>
-    <p style="margin-top:10px">Somos un equipo pequeño, bootstrapped, obsesionado con tecnología útil. Index = todo indexado, todo encontrable.</p>
-  </div>
-  <div>
-    <h3 style="font-size:.9rem;color:#aaa">CONTACTO</h3>
-    <p id="contacto" style="margin-top:8px"><a href="mailto:hola@indexcafe.tech">hola@indexcafe.tech</a><br><a href="mailto:contacto@indexcafe.tech">contacto@indexcafe.tech</a></p>
-    <p style="margin-top:12px;font-size:.85rem;color:#999">San Salvador, El Salvador<br>© 2026 IndexCafe</p>
-  </div>
+
+
+<!-- =========================================================
+     PRODUCT
+========================================================= -->
+
+<section
+    id="producto"
+    class="product-section reveal"
+>
+
+    <div class="product-heading">
+
+        <div class="section-kicker">
+            IndexCafe OS
+        </div>
+
+        <h2>
+            Todo lo importante.
+            <span>En una sola vista.</span>
+        </h2>
+
+        <p>
+            Información de inventario, ventas y clientes conectada para entender mejor lo que está pasando en el negocio.
+        </p>
+
+    </div>
+
+    <div class="product-overview reveal from-left">
+
+        <div class="overview-copy">
+
+            <div class="product-icon-large">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <rect x="3" y="3" width="18" height="18" rx="5"/>
+                    <path d="M7 16l3-4 3 2 4-6"/>
+                </svg>
+            </div>
+
+            <div>
+                <small>Operación</small>
+                <h3>Una vista clara de tu cafetería.</h3>
+                <p>
+                    Reúne la información que necesitas para trabajar sin saltar entre múltiples herramientas.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="overview-chart">
+
+            <div class="chart-header">
+                <div>
+                    <small>Actividad</small>
+                    <strong>Movimiento del negocio</strong>
+                </div>
+
+                <div class="chart-status">
+                    <span></span>
+                    Actualizado
+                </div>
+            </div>
+
+            <div class="line-chart">
+                <div class="chart-line-grid"></div>
+
+                <svg viewBox="0 0 600 210" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#b87542" stop-opacity=".28"/>
+                            <stop offset="100%" stop-color="#b87542" stop-opacity="0"/>
+                        </linearGradient>
+                    </defs>
+
+                    <path
+                        d="M0 170 C50 160 75 120 125 132 S200 170 250 110 S325 90 375 115 S450 60 500 78 S560 48 600 35 L600 210 L0 210 Z"
+                        fill="url(#chartFill)"
+                    />
+
+                    <path
+                        d="M0 170 C50 160 75 120 125 132 S200 170 250 110 S325 90 375 115 S450 60 500 78 S560 48 600 35"
+                        fill="none"
+                        stroke="#ad6b3b"
+                        stroke-width="5"
+                        stroke-linecap="round"
+                    />
+                </svg>
+
+                <div class="chart-point point-one"></div>
+                <div class="chart-point point-two"></div>
+                <div class="chart-point point-three"></div>
+            </div>
+
+            <div class="chart-labels">
+                <span>Lun</span>
+                <span>Mar</span>
+                <span>Mié</span>
+                <span>Jue</span>
+                <span>Vie</span>
+                <span>Sáb</span>
+                <span>Dom</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="product-features stagger">
+
+        <article class="product-feature">
+            <div class="product-feature-icon inventory-color">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M4 7h16"/>
+                    <path d="M5 7l1 13h12l1-13"/>
+                    <path d="M9 11v5"/>
+                    <path d="M15 11v5"/>
+                    <path d="M8 7l1-3h6l1 3"/>
+                </svg>
+            </div>
+
+            <h3>Inventario</h3>
+            <p>Productos, existencias y movimientos organizados.</p>
+
+            <div class="feature-mini-ui">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </article>
+
+        <article class="product-feature">
+            <div class="product-feature-icon whatsapp-color">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"/>
+                </svg>
+            </div>
+
+            <h3>Clientes</h3>
+            <p>Atención con contexto desde canales como WhatsApp.</p>
+
+            <div class="message-preview">
+                <div class="message-avatar">C</div>
+                <div>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </article>
+
+        <article class="product-feature">
+            <div class="product-feature-icon sales-color">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M4 19V9"/>
+                    <path d="M10 19V5"/>
+                    <path d="M16 19v-7"/>
+                    <path d="M22 19V3"/>
+                </svg>
+            </div>
+
+            <h3>Ventas</h3>
+            <p>Identifica patrones y comprende mejor tu operación.</p>
+
+            <div class="mini-bars">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </article>
+
+    </div>
+
+    <div class="ai-product reveal from-right">
+
+        <div class="ai-symbol">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <path d="M12 3v3"/>
+                <path d="M12 18v3"/>
+                <path d="M3 12h3"/>
+                <path d="M18 12h3"/>
+                <circle cx="12" cy="12" r="4"/>
+                <path d="m5.6 5.6 2.1 2.1"/>
+                <path d="m16.3 16.3 2.1 2.1"/>
+                <path d="m18.4 5.6-2.1 2.1"/>
+                <path d="m7.7 16.3-2.1 2.1"/>
+            </svg>
+        </div>
+
+        <div class="ai-copy">
+            <small>IndexCafe Intelligence</small>
+            <h3>IA con contexto del negocio.</h3>
+            <p>
+                No buscamos añadir inteligencia artificial solo porque esté de moda. Queremos utilizarla para reducir tareas repetitivas, organizar información y ayudar al equipo.
+            </p>
+        </div>
+
+        <div class="ai-example">
+            <div class="ai-example-header">
+                <span class="ai-status"></span>
+                Asistente
+            </div>
+
+            <p>“¿Qué productos debo revisar antes de abrir mañana?”</p>
+
+            <div class="ai-answer">
+                <div class="ai-answer-icon">✦</div>
+                <span>Revisando inventario y movimientos recientes…</span>
+            </div>
+        </div>
+
+    </div>
+
 </section>
+
+
+<!-- =========================================================
+     STORY
+========================================================= -->
+
+<section
+    id="historia"
+    class="story reveal"
+>
+
+    <div class="story-card">
+
+        <div class="story-grain"></div>
+
+
+        <div class="story-content">
+
+            <small>
+                Nuestra historia
+            </small>
+
+
+            <h2>
+                Primero vivimos
+                el problema.
+            </h2>
+
+
+            <p>
+
+                IndexCafe nace de experiencias
+                reales detrás de El Café de Van Gogh
+                y BebidasChiv@s.
+
+                Inventario, pedidos, clientes,
+                productos y decisiones que muchas
+                veces terminan distribuidos entre
+                mensajes, apuntes y hojas de cálculo.
+
+                Queremos transformar esa experiencia
+                en herramientas más simples para
+                pequeños negocios.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CONTACT
+========================================================= -->
+
+<section
+    id="contacto"
+    class="contact-section reveal"
+>
+
+    <div class="contact-glow"></div>
+
+    <div class="contact-content">
+
+        <div class="contact-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"/>
+            </svg>
+        </div>
+
+        <div class="section-kicker">Hablemos</div>
+
+        <h2>Las mejores ideas comienzan con una conversación.</h2>
+
+        <p>
+            ¿Administras una cafetería, trabajas en tecnología o quieres conocer IndexCafe? Escríbenos.
+        </p>
+
+        <div class="contact-actions">
+            <a
+                href="mailto:hola@indexcafe.tech?subject=Hola%20IndexCafe"
+                class="btn btn-primary"
+            >
+                <svg width="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <rect x="3" y="5" width="18" height="14" rx="3"/>
+                    <path d="m4 7 8 6 8-6"/>
+                </svg>
+                Enviar correo
+            </a>
+
+            <button
+                class="btn btn-glass contact-copy"
+                onclick="copyEmail(this)"
+                type="button"
+            >
+                <svg width="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <rect x="8" y="8" width="12" height="12" rx="2"/>
+                    <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>
+                </svg>
+                Copiar correo
+            </button>
+        </div>
+
+        <div class="contact-address">
+            <span></span>
+            hola@indexcafe.tech
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
 <footer>
-  <span>indexcafe.tech — IndexCafe Labs</span>
-  <span>Hecho con café + IA · <a href="mailto:hola@indexcafe.tech">hola@indexcafe.tech</a></span>
+
+    <div class="footer-inner">
+
+
+        <div class="footer-top">
+
+
+            <div>
+
+                <div class="footer-title">
+                    IndexCafe
+                </div>
+
+                <p>
+                    Tecnología para cafeterías
+                    independientes.
+                </p>
+
+                <p>
+                    San Salvador, El Salvador.
+                </p>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <div class="footer-title">
+                    IndexCafe
+                </div>
+
+                <a href="#producto">
+                    Producto
+                </a>
+
+                <a href="#historia">
+                    Nuestra historia
+                </a>
+
+                <a href="mailto:hola@indexcafe.tech">
+                    Contacto
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <div class="footer-title">
+                    Legal
+                </div>
+
+                <a
+                    href="#"
+                    onclick="
+                        privacy.showModal();
+                        return false;
+                    "
+                >
+                    Privacidad
+                </a>
+
+                <a
+                    href="#"
+                    onclick="
+                        cookies.showModal();
+                        return false;
+                    "
+                >
+                    Cookies
+                </a>
+
+                <a
+                    href="#"
+                    onclick="
+                        terms.showModal();
+                        return false;
+                    "
+                >
+                    Términos
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                Copyright © 2026 IndexCafe.
+                Todos los derechos reservados.
+            </p>
+
+
+            <div class="legal-links">
+
+                <a
+                    href="#"
+                    onclick="
+                        privacy.showModal();
+                        return false;
+                    "
+                >
+                    Política de privacidad
+                </a>
+
+                <a
+                    href="#"
+                    onclick="
+                        cookies.showModal();
+                        return false;
+                    "
+                >
+                    Política de cookies
+                </a>
+
+                <a
+                    href="#"
+                    onclick="
+                        terms.showModal();
+                        return false;
+                    "
+                >
+                    Términos legales
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </footer>
+
+
+<!-- =========================================================
+     PRIVACY
+========================================================= -->
+
+<dialog id="privacy">
+
+    <div class="modal">
+
+        <h2>
+            Política de privacidad
+        </h2>
+
+        <p>
+            IndexCafe respeta la privacidad
+            de sus visitantes.
+        </p>
+
+        <p>
+
+            Actualmente este sitio tiene carácter
+            informativo y no recopila intencionalmente
+            información personal mediante formularios propios.
+
+        </p>
+
+        <p>
+
+            Si una persona se comunica con nosotros
+            mediante correo electrónico, utilizaremos
+            la información proporcionada únicamente
+            para responder a dicha comunicación.
+
+        </p>
+
+        <p>
+
+            Para consultas relacionadas con privacidad:
+            hola@indexcafe.tech.
+
+        </p>
+
+        <button onclick="privacy.close()">
+            Cerrar
+        </button>
+
+    </div>
+
+</dialog>
+
+
+<!-- =========================================================
+     COOKIES
+========================================================= -->
+
+<dialog id="cookies">
+
+    <div class="modal">
+
+        <h2>
+            Política de cookies
+        </h2>
+
+        <p>
+
+            Este sitio utiliza almacenamiento local
+            únicamente para recordar determinadas
+            preferencias del visitante, como haber
+            aceptado este aviso.
+
+        </p>
+
+        <p>
+
+            Actualmente IndexCafe no utiliza cookies
+            publicitarias propias ni sistemas propios
+            de seguimiento comercial.
+
+        </p>
+
+        <button onclick="cookies.close()">
+            Cerrar
+        </button>
+
+    </div>
+
+</dialog>
+
+
+<!-- =========================================================
+     TERMS
+========================================================= -->
+
+<dialog id="terms">
+
+    <div class="modal">
+
+        <h2>
+            Términos de uso
+        </h2>
+
+        <p>
+
+            IndexCafe es un proyecto tecnológico
+            actualmente en desarrollo.
+
+        </p>
+
+        <p>
+
+            Las funciones, representaciones de interfaz
+            y características presentadas en este sitio
+            pueden evolucionar conforme avance el producto.
+
+        </p>
+
+        <p>
+
+            Los nombres, identidad visual, textos
+            y elementos originales de IndexCafe
+            están protegidos por los derechos
+            correspondientes.
+
+        </p>
+
+        <button onclick="terms.close()">
+            Cerrar
+        </button>
+
+    </div>
+
+</dialog>
+
+
+<!-- =========================================================
+     COOKIE NOTICE
+========================================================= -->
+
+<div
+    class="cookie-bar"
+    id="cookieNotice"
+>
+
+    <p>
+
+        Utilizamos almacenamiento técnico únicamente
+        para recordar tus preferencias.
+        Puedes consultar nuestra política de cookies.
+
+    </p>
+
+    <button onclick="acceptCookies()">
+        Entendido
+    </button>
+
+</div>
+
+
+<script>
+
+    /* COOKIE NOTICE */
+
+    function acceptCookies() {
+        localStorage.setItem("indexcafe-cookie-notice", "accepted");
+        document.getElementById("cookieNotice").style.display = "none";
+    }
+
+    if (localStorage.getItem("indexcafe-cookie-notice") === "accepted") {
+        document.getElementById("cookieNotice").style.display = "none";
+    }
+
+    /* SCROLL REVEAL — works going down and up */
+
+    const animatedElements = document.querySelectorAll(".reveal, .stagger");
+
+    const observer = new IntersectionObserver(
+        entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                } else {
+                    entry.target.classList.remove("visible");
+                }
+            });
+        },
+        {
+            threshold: 0.14,
+            rootMargin: "0px 0px -5% 0px"
+        }
+    );
+
+    animatedElements.forEach(element => observer.observe(element));
+
+    /* SUBTLE 3D DASHBOARD MOVEMENT ON SCROLL */
+
+    const dashboard = document.querySelector(".dashboard-shell");
+
+    window.addEventListener(
+        "scroll",
+        () => {
+            if (!dashboard) return;
+
+            const rect = dashboard.getBoundingClientRect();
+            const center = window.innerHeight / 2;
+            const offset = (rect.top + rect.height / 2 - center) / 80;
+            const movement = Math.max(-7, Math.min(7, offset));
+
+            dashboard.style.transform = `
+                translateX(-50%)
+                rotateX(${5 - movement * .12}deg)
+                rotateY(${-4 + movement * .08}deg)
+                translateY(${movement}px)
+            `;
+        },
+        { passive: true }
+    );
+
+    /* COPY EMAIL */
+
+    async function copyEmail(button) {
+        const email = "hola@indexcafe.tech";
+
+        try {
+            await navigator.clipboard.writeText(email);
+            const previous = button.innerHTML;
+            button.innerHTML = "✓ Correo copiado";
+
+            setTimeout(() => {
+                button.innerHTML = previous;
+            }, 1800);
+        } catch {
+            window.location.href = "mailto:" + email;
+        }
+    }
+
+</script>
+
 </body>
 </html>

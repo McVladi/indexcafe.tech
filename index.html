@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IndexCafe — Plataforma IA para cafeterías</title>
+<meta name="description" content="IndexCafe es una plataforma de IA para cafeterías independientes. Gestión de menú, inventario y atención al cliente.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,Segoe UI,Helvetica,Arial,sans-serif;color:#1a1a1a;line-height:1.6;background:#FFFBF5}
+a{color:inherit;text-decoration:none}
+header{max-width:1100px;margin:0 auto;padding:18px 24px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:800;font-size:1.35rem;letter-spacing:-.02em}
+.logo span{color:#C07A3A}
+nav a{margin-left:22px;font-size:.92rem;color:#555}
+.hero{max-width:1100px;margin:0 auto;padding:56px 24px 40px;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.hero h1{font-size:2.6rem;line-height:1.08;letter-spacing:-.03em}
+.hero h1 em{font-style:normal;color:#C07A3A}
+.hero p{margin-top:16px;color:#4a4a4a;font-size:1.05rem}
+.cta{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}
+.btn{padding:12px 20px;border-radius:999px;font-weight:600;font-size:.95rem}
+.btn-primary{background:#111;color:#fff}
+.btn-ghost{border:1.5px solid #111}
+.hero-card{background:#fff;border:1px solid #E8DDD0;border-radius:20px;padding:22px;box-shadow:0 8px 30px rgba(0,0,0,.06)}
+.hero-card h3{font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:#8a7a68}
+.kpis{display:flex;gap:18px;margin-top:14px}
+.kpi{flex:1;background:#FFFBF5;border-radius:14px;padding:14px;text-align:center}
+.kpi b{font-size:1.4rem}
+.kpi span{font-size:.8rem;color:#666;display:block}
+section{max-width:1100px;margin:0 auto;padding:36px 24px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+.card{background:#fff;border:1px solid #E8DDD0;border-radius:16px;padding:20px}
+.card h3{font-size:1rem;margin-bottom:6px}
+.card p{font-size:.92rem;color:#555}
+.about{background:#111;color:#fff;border-radius:20px;padding:32px;display:grid;grid-template-columns:1.2fr .8fr;gap:24px;margin-top:10px}
+.about p{color:#c9c9c9}
+.about a{color:#fff;text-decoration:underline}
+footer{max-width:1100px;margin:0 auto;padding:28px 24px;color:#888;font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid #E8DDD0;margin-top:10px}
+@media(max-width:860px){.hero{grid-template-columns:1fr}.about{grid-template-columns:1fr}.cards{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">index<span>cafe</span>.tech</div>
+  <nav><a href="#producto">Producto</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a></nav>
+</header>
+<div class="hero">
+  <div>
+    <h1>Damos superpoderes de <em>IA a cafeterías</em> independientes.</h1>
+    <p>IndexCafe es una plataforma para gestionar menú, inventario, pedidos y atención al cliente con IA. Nacimos operando cafeterías — ahora construimos el software que nos hubiera gustado tener.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="mailto:hola@indexcafe.tech">hola@indexcafe.tech</a>
+      <a class="btn btn-ghost" href="#producto">Ver demo</a>
+    </div>
+  </div>
+  <div class="hero-card">
+    <h3>En producción hoy</h3>
+    <p style="margin-top:8px;font-weight:600">Asistente IndexCafe para WhatsApp + punto de venta</p>
+    <p style="color:#666;font-size:.9rem;margin-top:4px">Responde clientes, toma pedidos y predice stock. Construido con Claude API.</p>
+    <div class="kpis">
+      <div class="kpi"><b>3</b><span>marcas operadas</span></div>
+      <div class="kpi"><b>24/7</b><span>atención IA</span></div>
+      <div class="kpi"><b>-30%</b><span>merma</span></div>
+    </div>
+  </div>
+</div>
+<section id="producto">
+  <h2 style="font-size:1.35rem">Qué hace IndexCafe</h2>
+  <div class="cards">
+    <div class="card"><h3>☕ Menú inteligente</h3><p>Actualiza precios, disponibilidad y fotos desde un solo panel. Sincroniza con WhatsApp e Instagram.</p></div>
+    <div class="card"><h3>📦 Inventario predictivo</h3><p>IA que anticipa compras de leche, café y repostería según clima, eventos y ventas históricas.</p></div>
+    <div class="card"><h3>💬 Atención con Claude</h3><p>Bot que responde como tu mejor barista: conoce tu carta, recomienda y cierra pedidos solo.</p></div>
+  </div>
+</section>
+<section id="nosotros" class="about">
+  <div>
+    <h2 style="font-size:1.2rem">De cafeteros para cafeteros</h2>
+    <p style="margin-top:10px">Venimos de operar proyectos como <b style="color:#fff">El Café de Van Gogh</b>, <b style="color:#fff">BebidasChiv@s</b> y <b style="color:#fff">Fashion World</b> en El Salvador. Conocemos el caos de un sábado a las 8am — por eso construimos IndexCafe junto a micro-cafeterías locales.</p>
+    <p style="margin-top:10px">Somos un equipo pequeño, bootstrapped, obsesionado con tecnología útil. Index = todo indexado, todo encontrable.</p>
+  </div>
+  <div>
+    <h3 style="font-size:.9rem;color:#aaa">CONTACTO</h3>
+    <p id="contacto" style="margin-top:8px"><a href="mailto:hola@indexcafe.tech">hola@indexcafe.tech</a><br><a href="mailto:contacto@indexcafe.tech">contacto@indexcafe.tech</a></p>
+    <p style="margin-top:12px;font-size:.85rem;color:#999">San Salvador, El Salvador<br>© 2026 IndexCafe</p>
+  </div>
+</section>
+<footer>
+  <span>indexcafe.tech — IndexCafe Labs</span>
+  <span>Hecho con café + IA · <a href="mailto:hola@indexcafe.tech">hola@indexcafe.tech</a></span>
+</footer>
+</body>
+</html>
